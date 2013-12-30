@@ -1,0 +1,24 @@
+oro_menu_config:
+    items:
+        acme_temporary_tab:
+            label: Acme Temporary
+            uri: '#'
+            extras:
+                position: 10
+        acme_temporary_order_list:
+            label: Orders
+            route: acme_temporary_order_index
+            extras:
+                routes: ['acme_temporary_order_*']
+                description: List of orders
+    tree:
+        application_menu:
+            children:
+                acme_temporary_tab:
+                    children:
+                        acme_temporary_order_list: ~
+
+oro_titles:
+    acme_temporary_order_index:  ~
+    acme_temporary_order_create: Create order
+    acme_temporary_order_update: %%order.label%% - Edit

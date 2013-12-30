@@ -1,0 +1,52 @@
+{% extends 'OroUIBundle:actions:update.html.twig' %}
+{% form_theme form with ['AcmeTemporaryBundle:Form:fields.html.twig', 'OroFormBundle:Form:fields.html.twig'] %}
+{% if form.vars.value.id %}
+    {% oro_title_set({params : {"%order.label%": form.vars.value.label} }) %}
+{% endif %}
+{% set title = form.vars.value.id ? form.vars.value.name|default('N/A') : 'New'|trans ~ ' ' ~ 'order'|trans %}
+
+{% set formAction = form.vars.value.id ? path('acme_temporary_order_update', { id: form.vars.value.id }) : path('acme_temporary_order_create') %}
+
+{% block navButtons %}
+    {{ UI.button({'path' : path('acme_temporary_order_index'), 'title' : 'Cancel', 'label' : 'Cancel'}) }}
+    {{ UI.saveAndStayButton() }}
+    {{ UI.saveAndCloseButton() }}
+{% endblock navButtons %}
+
+{% block pageHeader %}
+    {% if form.vars.value.id %}
+        {% set breadcrumbs = {
+                'entity':      form.vars.value,
+                'indexPath':   path('acme_temporary_order_index'),
+                'indexLabel': 'Orders'|trans,
+                'entityTitle': form.vars.value.label|default('N/A')
+            }
+        %}
+        {{ parent() }}
+    {% else %}
+        {% include 'OroUIBundle::page_title_block.html.twig' %}
+    {% endif %}
+{% endblock pageHeader %}
+
+{% block content_data %}
+    {% set id = 'order-view' %}
+    {% set dataBlocks = [{
+        'title': 'General',
+        'class': 'active',
+        'subblocks': [
+            {
+                'title': 'Basic Information',
+                'data': [
+                    form_row(form.label),
+                    form_widget(form.items)
+                ]
+            }
+        ]
+    }] %}
+
+    {% set data = {
+        'formErrors': form_errors(form)? form_errors(form) : null,
+        'dataBlocks': dataBlocks,
+    } %}
+    {{ parent() }}
+{% endblock content_data %}

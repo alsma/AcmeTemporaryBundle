@@ -1,0 +1,38 @@
+datagrid:
+    acme-temp-orders-grid:
+        source:
+            type: orm
+            query:
+                select:
+                    - o
+                from:
+                    - { table: AcmeTemporaryBundle:Order, alias: o }
+        columns:
+            label:
+                label: Label
+            itemsOrderedCount:
+                label: Items ordered
+        sorters:
+            columns:
+                label: { data_name: o.label }
+        properties:
+            id: ~
+            update_link:
+                type:       url
+                route:      acme_temporary_order_update
+                params:     [ id ]
+        filters:
+            columns:
+                label:
+                    type:      string
+                    data_name: o.label
+        actions:
+            update:
+                type:          navigate
+                label:         Update
+                icon:          edit
+                link:          update_link
+                rowAction:     true
+        options:
+            entityHint: order
+

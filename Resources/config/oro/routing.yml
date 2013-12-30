@@ -1,0 +1,4 @@
+orocrm_account_bundle:
+    resource:     "@AcmeTemporaryBundle/Controller"
+    type:         annotation
+    prefix:       /acme-temp

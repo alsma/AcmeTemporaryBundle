@@ -1,0 +1,11 @@
+{% extends 'OroUIBundle:actions:index.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as UI %}
+{% set gridName = 'acme-temp-orders-grid' %}
+{% set pageTitle = 'Orders'|trans %}
+
+{% block navButtons %}
+    {{ UI.addButton({
+        'path' : path('acme_temporary_order_create'),
+        'entity_label': 'order'|trans
+    }) }}
+{% endblock %}

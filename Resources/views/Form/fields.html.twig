@@ -1,0 +1,20 @@
+{% block _acme_temporary_order_form_items_widget %}
+    {% set subform = form %}
+    {{ block('collection_render') }}
+{% endblock %}
+
+{% macro collection_item_prototype(widget) %}
+    {% if 'prototype' in widget.vars|keys %}
+        {% set form = widget.vars.prototype %}
+        {% set name = widget.vars.prototype.vars.name %}
+    {% else %}
+        {% set form = widget %}
+        {% set name = widget.vars.full_name %}
+    {% endif %}
+    <div data-content="{{ name }}" data-validation-optional-group>
+        <div class="row-oro oro-multiselect-holder">
+            {{ form_widget(form) }}
+            <button class="removeRow btn btn-action btn-link" type="button" data-related="{{ name }}">×</button>
+        </div>
+    </div>
+{% endmacro %}
