@@ -35,13 +35,20 @@
         'class': 'active',
         'subblocks': [
             {
-                'title': 'Basic Information',
+                'title': null,
                 'data': [
                     form_row(form.label),
-                    form_widget(form.items)
                 ]
             }
         ]
+    }, {
+        'title': 'Items',
+        'subblocks': [{
+            'title': null,
+            'data': [
+                form_widget(form.items)
+            ]
+        }]
     }] %}
 
     {% set data = {

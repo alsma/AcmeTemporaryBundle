@@ -1,7 +1,8 @@
 parameters:
-    acme_temporary.form.handler.order.class:     Acme\Bundle\TemporaryBundle\Form\Handler\OrderHandler
-    acme_temporary.form.type.order.class:        Acme\Bundle\TemporaryBundle\Form\Type\OrderType
-    acme_temporary.form.type.order_item.class:        Acme\Bundle\TemporaryBundle\Form\Type\OrderItemType
+    acme_temporary.form.handler.order.class:                Acme\Bundle\TemporaryBundle\Form\Handler\OrderHandler
+    acme_temporary.form.type.order.class:                   Acme\Bundle\TemporaryBundle\Form\Type\OrderType
+    acme_temporary.form.type.order_item.class:              Acme\Bundle\TemporaryBundle\Form\Type\OrderItemType
+    acme_temporary.form.type.order_item_collection.class:   Acme\Bundle\TemporaryBundle\Form\Type\OrderItemCollectionType
 services:
     acme_temporary.form.handler.order:
         class: %acme_temporary.form.handler.order.class%
@@ -26,3 +27,8 @@ services:
         class: %acme_temporary.form.type.order_item.class%
         tags:
             - { name: form.type, alias: acme_bundle_temporary_orderitem }
+
+    acme_temporary.form.type.order_item_collection:
+        class: %acme_temporary.form.type.order_item_collection.class%
+        tags:
+            - { name: form.type, alias: acme_bundle_temporary_order_item_collection }

@@ -15,15 +15,7 @@ class OrderType extends AbstractType
     {
         $builder
             ->add('label')
-            ->add(
-                'items',
-                'collection',
-                [
-                    'allow_add'    => true,
-                    'allow_delete' => true,
-                    'type'         => 'acme_bundle_temporary_orderitem'
-                ]
-            );
+            ->add('items', 'acme_bundle_temporary_order_item_collection');
     }
 
     /**
@@ -33,7 +25,8 @@ class OrderType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'Acme\Bundle\TemporaryBundle\Entity\Order'
+                'data_class'         => 'Acme\Bundle\TemporaryBundle\Entity\Order',
+                'cascade_validation' => true
             ]
         );
     }

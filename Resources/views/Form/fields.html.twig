@@ -1,9 +1,66 @@
-{% block _acme_temporary_order_form_items_widget %}
-    {% set subform = form %}
-    {{ block('collection_render') }}
+{% block acme_bundle_temporary_order_item_collection_widget %}
+    {% set prototypeHtml = _self.prototype(form) %}
+    {% set attr = attr|merge({'class': (attr.class is defined ? attr.class ~ ' ' : '') ~ 'oro-item-collection collection-fields-list' }) %}
+    {% set id = id ~ '_collection' %}
+    <style type="text/css">
+        .order-items-subform .control-group {
+            float: left;
+        }
+    </style>
+    <script type="text/javascript">
+        // @TODO use regular add-list-item binding, it's fixed in dev-master
+        require(['jquery', 'oro/layout', 'underscore', 'jquery.validate'],
+        function ($, layout, _) {
+            $('.add-order-item').on('click', function (e) {
+                e.preventDefault();
+                var cList = $(this).siblings('.collection-fields-list'),
+                    widget = cList.attr('data-prototype').replace(/__name__/g, cList.children().length),
+                    data = $('<div/>').html(widget);
+
+                data.children().appendTo(cList);
+                layout.styleForm(cList);
+            });
+
+            var methodName = 'Count',
+                replace = function () {
+                    $.validator.methods[methodName] = _.wrap($.validator.methods[methodName], function (func, value, element, param) {
+                        // if not our collection just return regular validator
+                        if (!$(element).parents('.order-items-subform').length) {
+                            return func(value, element, param);
+                        }
+
+                        return true;
+                    });
+                }, delay = function (callback) {
+                    _.delay(function () {
+                        if (typeof $.validator.methods[methodName] === 'undefined') {
+                            return delay(callback);
+                        }
+                        return callback();
+                    }, 500);
+                };
+
+            $(function () {
+                // replace regular collection validator
+                delay(replace);
+            });
+        });
+    </script>
+    <div class="row-oro">
+        <div {{ block('widget_container_attributes') }} data-prototype="{{ prototypeHtml|escape }}">
+            {% if form.children|length %}
+                {% for child in form.children %}
+                    {{ _self.prototype(child) }}
+                {% endfor %}
+            {% else %}
+                {{ prototypeHtml|replace({'__name__': '0'})|raw }}
+            {% endif %}
+        </div>
+        <a class="btn add-order-item" href="javascript: void(0);"><i class="icon-plus"></i>{{ 'Add'|trans }}</a>
+    </div>
 {% endblock %}
 
-{% macro collection_item_prototype(widget) %}
+{% macro prototype(widget) %}
     {% if 'prototype' in widget.vars|keys %}
         {% set form = widget.vars.prototype %}
         {% set name = widget.vars.prototype.vars.name %}
@@ -12,7 +69,7 @@
         {% set name = widget.vars.full_name %}
     {% endif %}
     <div data-content="{{ name }}" data-validation-optional-group>
-        <div class="row-oro oro-multiselect-holder">
+        <div class="row-oro order-items-subform clearfix">
             {{ form_widget(form) }}
             <button class="removeRow btn btn-action btn-link" type="button" data-related="{{ name }}">×</button>
         </div>

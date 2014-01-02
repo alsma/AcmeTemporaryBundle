@@ -32,7 +32,7 @@ class Order
     /**
      * @var OrderItem[]|ArrayCollection
      *
-     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="order",cascade={"all"})
+     * @ORM\OneToMany(targetEntity="OrderItem", mappedBy="order",cascade={"all"}, orphanRemoval=true)
      */
     protected $items;
 
@@ -111,7 +111,7 @@ class Order
     public function removeItem(OrderItem $item)
     {
         if ($this->items->contains($item)) {
-            $this->items->remove($item);
+            $this->items->removeElement($item);
         }
 
         return $this;
