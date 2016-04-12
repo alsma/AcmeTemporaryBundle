@@ -3,14 +3,12 @@ Acme\Bundle\TemporaryBundle\Entity\Order:
         label:
             - NotBlank: ~
         items:
-            - Count:
-                min: 1
+            - Count: { min: 1 }
 
 Acme\Bundle\TemporaryBundle\Entity\OrderItem:
     properties:
         qty:
-            - Range:
-                min: 0
+            - Range: { min: 0 }
             - NotBlank: ~
         product:
             - NotBlank: ~

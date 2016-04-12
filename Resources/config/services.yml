@@ -9,8 +9,8 @@ services:
         scope: request
         arguments:
             - @acme_temporary.form.order
-            - @request
-            - @doctrine.orm.entity_manager
+            - @request_stack
+            - @doctrine
 
     acme_temporary.form.order:
         class: Symfony\Component\Form\Form

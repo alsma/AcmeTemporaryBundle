@@ -5,10 +5,8 @@ namespace Acme\Bundle\TemporaryBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Product
- *
- * @ORM\Table("acme_temporary_product")
  * @ORM\Entity
+ * @ORM\Table("acme_temporary_product")
  */
 class Product
 {
@@ -35,6 +33,10 @@ class Product
      */
     protected $sku;
 
+    /**
+     * @param string $sku
+     * @param string $name
+     */
     public function __construct($sku, $name)
     {
         $this->setSku($sku);
@@ -42,8 +44,6 @@ class Product
     }
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -52,22 +52,14 @@ class Product
     }
 
     /**
-     * Set name
-     *
      * @param string $name
-     *
-     * @return Product
      */
     public function setName($name)
     {
         $this->name = $name;
-
-        return $this;
     }
 
     /**
-     * Get name
-     *
      * @return string
      */
     public function getName()
@@ -76,22 +68,14 @@ class Product
     }
 
     /**
-     * Set sku
-     *
      * @param string $sku
-     *
-     * @return Product
      */
     public function setSku($sku)
     {
         $this->sku = $sku;
-
-        return $this;
     }
 
     /**
-     * Get sku
-     *
      * @return string
      */
     public function getSku()
@@ -99,6 +83,9 @@ class Product
         return $this->sku;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function __toString()
     {
         return sprintf('%s: %s', $this->getSku(), $this->getName());

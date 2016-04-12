@@ -6,10 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Order
- *
- * @ORM\Table("acme_temporary_order")
  * @ORM\Entity
+ * @ORM\Table("acme_temporary_order")
  */
 class Order
 {
@@ -42,8 +40,6 @@ class Order
     }
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -52,22 +48,14 @@ class Order
     }
 
     /**
-     * Set label
-     *
      * @param string $label
-     *
-     * @return Order
      */
     public function setLabel($label)
     {
         $this->label = $label;
-
-        return $this;
     }
 
     /**
-     * Get label
-     *
      * @return string
      */
     public function getLabel()
@@ -76,50 +64,34 @@ class Order
     }
 
     /**
-     * Get items
-     *
-     * @return \Acme\Bundle\TemporaryBundle\Entity\OrderItem[]|\Doctrine\Common\Collections\ArrayCollection
+     * @return OrderItem[]
      */
     public function getItems()
     {
-        return $this->items;
+        return $this->items->toArray();
     }
 
     /**
-     * Add item
-     *
      * @param OrderItem $item
-     *
-     * @return $this
      */
     public function addItem(OrderItem $item)
     {
         if (!$this->items->contains($item)) {
             $this->items->add($item);
         }
-
-        return $this;
     }
 
     /**
-     * Remove item if exists
-     *
      * @param OrderItem $item
-     *
-     * @return $this
      */
     public function removeItem(OrderItem $item)
     {
         if ($this->items->contains($item)) {
             $this->items->removeElement($item);
         }
-
-        return $this;
     }
 
     /**
-     * Get ordered items count
-     *
      * @return int
      */
     public function getItemsOrderedCount()

@@ -5,10 +5,8 @@ namespace Acme\Bundle\TemporaryBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * OrderItem
- *
- * @ORM\Table("acme_temporary_order_item")
  * @ORM\Entity
+ * @ORM\Table("acme_temporary_order_item")
  */
 class OrderItem
 {
@@ -67,8 +65,6 @@ class OrderItem
     }
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -77,22 +73,14 @@ class OrderItem
     }
 
     /**
-     * Set qty
-     *
      * @param integer $qty
-     *
-     * @return OrderItem
      */
     public function setQty($qty)
     {
         $this->qty = $qty;
-
-        return $this;
     }
 
     /**
-     * Get qty
-     *
      * @return integer
      */
     public function getQty()
@@ -101,22 +89,14 @@ class OrderItem
     }
 
     /**
-     * Set orders
-     *
      * @param Order $order
-     *
-     * @return OrderItem
      */
     public function setOrder(Order $order)
     {
         $this->order = $order;
-
-        return $this;
     }
 
     /**
-     * Get order
-     *
      * @return Order
      */
     public function getOrder()
@@ -125,24 +105,16 @@ class OrderItem
     }
 
     /**
-     * Set product
-     *
      * @param Product $product
-     *
-     * @return OrderItem
      */
     public function setProduct(Product $product)
     {
         $this->product     = $product;
         $this->productName = $product->getName();
         $this->productSku  = $product->getSku();
-
-        return $this;
     }
 
     /**
-     * Get product
-     *
      * @return Product
      */
     public function getProduct()

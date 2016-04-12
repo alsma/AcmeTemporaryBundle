@@ -4,7 +4,9 @@ namespace Acme\Bundle\TemporaryBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Acme\Bundle\TemporaryBundle\Entity\Order;
 
 class OrderType extends AbstractType
 {
@@ -13,22 +15,19 @@ class OrderType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('label')
-            ->add('items', 'acme_bundle_temporary_order_item_collection');
+        $builder->add('label');
+        $builder->add('items', 'acme_bundle_temporary_order_item_collection');
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(
-            [
-                'data_class'         => 'Acme\Bundle\TemporaryBundle\Entity\Order',
-                'cascade_validation' => true
-            ]
-        );
+        $resolver->setDefaults([
+            'data_class'         => Order::class,
+            'cascade_validation' => true
+        ]);
     }
 
     /**

@@ -2,11 +2,12 @@
 
 namespace Acme\Bundle\TemporaryBundle\Form\Type;
 
-use Acme\Bundle\TemporaryBundle\Entity\OrderItem;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use Acme\Bundle\TemporaryBundle\Entity\OrderItem;
 
 class OrderItemType extends AbstractType
 {
@@ -15,19 +16,18 @@ class OrderItemType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('qty')
-            ->add('product');
+        $builder->add('qty');
+        $builder->add('product');
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'Acme\Bundle\TemporaryBundle\Entity\OrderItem',
+                'data_class' => OrderItem::class,
                 'empty_data' => function (FormInterface $form) {
                     return new OrderItem($form->getParent()->getParent()->getData());
                 }

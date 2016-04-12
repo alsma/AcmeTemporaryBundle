@@ -2,61 +2,52 @@
 
 namespace Acme\Bundle\TemporaryBundle\Form\Handler;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 use Acme\Bundle\TemporaryBundle\Entity\Order;
 
 class OrderHandler
 {
-    /**
-     * @var FormInterface
-     */
+    /** @var FormInterface */
     protected $form;
 
-    /**
-     * @var Request
-     */
-    protected $request;
+    /** @var RequestStack */
+    protected $requestStack;
+
+    /** @var ManagerRegistry */
+    protected $registry;
 
     /**
-     * @var EntityManager
+     * @param FormInterface   $form
+     * @param RequestStack    $requestStack
+     * @param ManagerRegistry $registry
      */
-    protected $em;
-
-    /**
-     * @param FormInterface $form
-     * @param Request       $request
-     * @param EntityManager $em
-     */
-    public function __construct(FormInterface $form, Request $request, EntityManager $em)
+    public function __construct(FormInterface $form, RequestStack $requestStack, ManagerRegistry $registry)
     {
-        $this->form    = $form;
-        $this->request = $request;
-        $this->em      = $em;
+        $this->form = $form;
+        $this->registry = $registry;
+        $this->requestStack = $requestStack;
     }
 
     /**
-     * Process form
+     * @param Order $entity
      *
-     * @param  Order $entity
-     *
-     * @return bool  True on successfull processing, false otherwise
+     * @return bool True when successful processed, false otherwise
      */
     public function process(Order $entity)
     {
         $this->form->setData($entity);
 
-        if (in_array($this->request->getMethod(), array('POST', 'PUT'))) {
-            $this->form->submit($this->request);
+        if ($this->form->handleRequest($this->requestStack->getCurrentRequest())->isValid()) {
+            $em = $this->registry->getManagerForClass(Order::class);
 
-            if ($this->form->isValid()) {
-                $this->em->persist($entity);
-                $this->em->flush();
-                return true;
-            }
+            $em->persist($entity);
+            $em->flush($entity);
+
+            return true;
         }
 
         return false;
